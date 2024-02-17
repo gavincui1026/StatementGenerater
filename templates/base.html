@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayPal Transaction History</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 12px; /* 基础字体大小 */
+  }
+  .header {
+    padding: 10px;
+  }
+  .header-section {
+    margin-bottom: 10px;
+  }
+  .paypal-logo {
+    height: 60px;
+    width: auto;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .transaction-history-header {
+    padding: 10px;
+    font-size: 1.2em;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-section">
+    <img src="/statics/download.png" alt="PayPal Logo" class="paypal-logo">
+    <div>Merchant Account ID: PB239A69GK7G</div>
+  </div>
+  <div class="header-section">
+    <div>PayPal ID: rachel@gentlefrog.com</div>
+    <div>9/1/22 - 9/30/22</div>
+  </div>
+</div>
+<div class="transaction-history-header">
+  Transaction History - USD
+</div>
+{{ table }}
+</body>
+</html>
+
+
