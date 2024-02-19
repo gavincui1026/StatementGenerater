@@ -28,23 +28,26 @@
     font-size: 1.2em;
     margin-top: 10px;
   }
+  .page-break { page-break-after: always; }
 </style>
 </head>
 <body>
+{% for table in tables %}
 <div class="header">
   <div class="header-section">
     <img src="/statics/download.png" alt="PayPal Logo" class="paypal-logo">
     <div>Merchant Account ID: PB239A69GK7G</div>
   </div>
   <div class="header-section">
-    <div>PayPal ID: rachel@gentlefrog.com</div>
-    <div>9/1/22 - 9/30/22</div>
+    <div>PayPal ID: {{ email }}</div>
+    <div>{{ overall_start }} - {{ overall_end }}</div>
   </div>
 </div>
 <div class="transaction-history-header">
   Transaction History - USD
 </div>
 {{ table }}
+{% endfor %}
 </body>
 </html>
 

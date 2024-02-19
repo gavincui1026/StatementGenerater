@@ -1,7 +1,11 @@
 import hashlib
 import random
-from datetime import datetime
+import string
 
+from _decimal import Decimal
+from datetime import datetime
+import configparser
+from settings import settings
 import faker
 from faker import Faker
 
@@ -33,7 +37,8 @@ class Statement:
         return address.replace('\n', ', ')
 
 
-    def generate_random_date(self, start_date, end_date):
+    def generate_random_date(self):
+        start_date, end_date = settings.date.split(',')
         fake = Faker()
         start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
         end_datetime = datetime.strptime(end_date, '%Y-%m-%d')
@@ -45,13 +50,20 @@ class Statement:
         uuid = self.generate_unique_id()
         threshold = 0.95
         rand_num = random.random()
-        checkout_description = 'Checkout Payment' + "/n" + 'Transaction ID: ' + uuid
-        refund_description = 'Refund Payment' + "/n" + 'Transaction ID: ' + uuid
+        checkout_description = 'Checkout Payment' + " " + 'Transaction ID: ' + uuid
+        refund_description = 'Refund Payment' + " " + 'Transaction ID: ' + uuid
         return checkout_description
-
     def generate_unique_id(self):
-        fake = faker.Faker()
-        return fake.uuid4()
+        template="563206015J138903P"
+        digits = string.digits  # '0123456789'
+        uppercase_letters = string.ascii_uppercase  # 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+        # Replace each character in the template
+        generated_id = ''.join(random.choice(digits) if char.isdigit() else
+                               random.choice(uppercase_letters) if char.isupper() else char
+                               for char in template)
+
+        return generated_id
 
     def get_currency_with_probability(self):
         # Set a threshold for the probability
@@ -63,7 +75,7 @@ class Statement:
 
     def generate_random_amount(self):
         random_float = round(random.uniform(100, 200), 2)
-        amount = random_float
+        amount = Decimal(str(random_float))
         return amount
 
 
@@ -72,7 +84,7 @@ class Statement:
         name = self.generate_fake_name()
         email = self.generate_fake_email(name)
         address = self.generate_us_address()
-        date = self.generate_random_date('2021-01-01', '2023-12-31')
+        date = self.generate_random_date()
         status = 'completed'
         currency = self.get_currency_with_probability()
         description = self.generate_description()
