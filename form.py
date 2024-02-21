@@ -1,5 +1,5 @@
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 from random import choice
 
 from _decimal import Decimal
@@ -15,8 +15,14 @@ class StatementForm:
         self.form = []
         for _ in range(number_of_statements):
             self.form.append(self.statement.get_single_statement())
+        withdraw_dates = self.withdraw()
+        for date in withdraw_dates:
+            self.form.append(self.statement.set_withdraw_statement(date))
         self.sort_by_date(self.form)
         for statement in self.form:
+            if 'General Withdrawal' in statement['description']:
+                amount = self.balance * -1
+                statement['amount'] = Decimal(str(amount))
             amount = Decimal(str(statement['amount']))
             self.balance += amount
             statement['balance'] = '{:.2f}'.format(self.balance)
@@ -24,6 +30,16 @@ class StatementForm:
         self.start, self.end = self.set_overall_date()
         self.set_email()
 
+    def withdraw(self):
+        withdraw_data = []
+        # 计算所有的withdrawdate，两周一次，在self.start_date和self.end_date之间
+        start_datetime = datetime.strptime(self.statement.start_date, '%Y-%m-%d')
+        end_datetime = datetime.strptime(self.statement.end_date, '%Y-%m-%d')
+        current_datetime = start_datetime
+        while current_datetime < end_datetime:
+            withdraw_data.append(current_datetime.strftime('%m/%d/%Y'))
+            current_datetime += timedelta(days=14)
+        return withdraw_data
 
 
     def set_overall_date(self):

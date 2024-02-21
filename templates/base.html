@@ -13,6 +13,9 @@
   }
   .header {
     padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
   }
   .header-section {
     margin-bottom: 10px;
@@ -34,13 +37,15 @@
 <body>
 {% for table in tables %}
 <div class="header">
+
   <div class="header-section">
-    <img src="/statics/download.png" alt="PayPal Logo" class="paypal-logo">
     <div>Merchant Account ID: PB239A69GK7G</div>
-  </div>
-  <div class="header-section">
     <div>PayPal ID: {{ email }}</div>
     <div>{{ overall_start }} - {{ overall_end }}</div>
+  </div>
+   <div class="header-section">
+    <img src="/statics/download.png" alt="PayPal Logo" class="paypal-logo">
+
   </div>
 </div>
 <div class="transaction-history-header">
@@ -50,5 +55,3 @@
 {% endfor %}
 </body>
 </html>
-
-
